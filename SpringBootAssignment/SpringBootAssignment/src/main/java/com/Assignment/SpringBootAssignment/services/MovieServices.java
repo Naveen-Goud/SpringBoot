@@ -19,12 +19,12 @@ public class MovieServices implements MovieServicesInterface {
       movieRepository=movierepository;
     }
 
-    public Movie movieName(int id){
+    public Movie findMovieById(int id){
         return movieRepository.findByMovieId(id);
     }
 
     @Override
-    public List<Movie> moviesName() {
+    public List<Movie> findAllMovies() {
         return movieRepository.findAll();
     }
 

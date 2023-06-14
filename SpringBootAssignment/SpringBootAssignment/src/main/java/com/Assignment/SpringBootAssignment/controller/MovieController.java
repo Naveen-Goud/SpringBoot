@@ -22,13 +22,13 @@ public class MovieController {
 
 
    @GetMapping("/{id}")
-    public Movie movieName(@PathVariable int id){
-        return movieServices.movieName(id);
+    public Movie findMovieById(@PathVariable int id){
+        return movieServices.findMovieById(id);
     }
 
     @GetMapping("/list")
-    public List<Movie > moviesName(){
-        return movieServices.moviesName();
+    public List<Movie > findAllMovies(){
+        return movieServices.findAllMovies();
     }
 
     @PostMapping("/")
@@ -46,7 +46,7 @@ public class MovieController {
     @DeleteMapping("/{id}")
     public String deleteMovie(@PathVariable int id){
         movieServices.delete(id);
-        return "the deleted movie is : " + movieServices.movieName(id);
+        return "the deleted movie is : " + movieServices.findMovieById(id);
 
     }
 
