@@ -10,4 +10,6 @@ public interface MovieServicesInterface {
          Movie findMovieById(int id);
           List<Movie> findAllMovies();
           Movie save(Movie movie);
+
+
 }

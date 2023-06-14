@@ -37,7 +37,7 @@ public class MovieServicesTest {
 
         when(movieRepository.findByMovieId(1)).thenReturn(movie);
 
-        Movie result = movieServices.movieName(1);
+        Movie result = movieServices.findMovieById(1);
 
         assertEquals(movie, result);
         verify(movieRepository, times(1)).findByMovieId(1);
@@ -57,7 +57,7 @@ public class MovieServicesTest {
 
         when(movieRepository.findAll()).thenReturn(movieList);
 
-        List<Movie> result = movieServices.moviesName();
+        List<Movie> result = movieServices.findAllMovies();
 
         assertEquals(movieList, result);
         verify(movieRepository, times(1)).findAll();

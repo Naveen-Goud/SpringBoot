@@ -44,7 +44,7 @@ public class MovieControllerTest {
         Movie mockMovie = new Movie();
         mockMovie.setMovieId(1);
         mockMovie.setMovieName("mock movie");
-        Mockito.when(movieServices.movieName(Mockito.anyInt())).thenReturn(mockMovie);
+        Mockito.when(movieServices.findMovieById(Mockito.anyInt())).thenReturn(mockMovie);
 
         String URI= "/movies/1";
         // Act
@@ -88,14 +88,14 @@ public class MovieControllerTest {
         movie.setMovieId(id);
         movie.setMovieName("Movie to delete");
 
-        when(movieServices.movieName(id)).thenReturn(movie);
+        when(movieServices.findMovieById(id)).thenReturn(movie);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/movies/{id}", id))
                 .andExpect(MockMvcResultMatchers.status().isOk());
                 //.andExpect(MockMvcResultMatchers.content().string("the deleted movie is : Movie to delete"));
 
       //  verify(movieServices, times(1)).delete(id);
-        verify(movieServices, times(1)).movieName(id);
+        verify(movieServices, times(1)).findMovieById(id);
      //   verifyNoMoreInteractions(movieServices);
     }
 
