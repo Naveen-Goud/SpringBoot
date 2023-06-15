@@ -27,7 +27,9 @@ import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+ 
 @WebMvcTest(MovieController.class )
+ 
 public class MovieControllerTest {
 
     @Autowired
@@ -50,8 +52,7 @@ public class MovieControllerTest {
         RequestBuilder requestBuilder= MockMvcRequestBuilders.get(URI).accept(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         String expectedJson = this.mapToJson(mockMovie);
-        String outputJson = result.getResponse().getContentAsString();
-
+        String outputJson = result.getResponse().getContentAsString(); 
         assertThat(outputJson, Matchers.is(equalTo(expectedJson)));
 
    }
@@ -93,13 +94,12 @@ public class MovieControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.delete("/movies/{id}", id))
                 .andExpect(MockMvcResultMatchers.status().isOk());
                 //.andExpect(MockMvcResultMatchers.content().string("the deleted movie is : Movie to delete"));
-
-      //  verify(movieServices, times(1)).delete(id);
+ 
         verify(movieServices, times(1)).findMovieById(id);
-     //   verifyNoMoreInteractions(movieServices);
+     
     }
 
-    //helper
+    //helper 
     private String mapToJson(Object object) throws JsonProcessingException{
         ObjectMapper objectMapper= new ObjectMapper();
         return objectMapper.writeValueAsString(object);
