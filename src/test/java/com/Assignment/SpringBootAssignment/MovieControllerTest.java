@@ -16,22 +16,27 @@ import org.springframework.data.domain.PageImpl;
 
 import java.util.ArrayList;
 import java.util.List;
-  class MovieControllerTest {
+ 
+   
+ 
+public class MovieControllerTest {
 
 
     @BeforeEach
-      void setup() {
+    public void setup() {
+ 
         MockitoAnnotations.openMocks(this);
     }
 
     @InjectMocks
-      MovieController movieController;
+    private MovieController movieController;
 
     @Mock
-      MovieServices movieServices;
+    private MovieServices movieServices;
 
     @Test
-      void testFindMovieById() {
+    public void testFindMovieById() {
+ 
 
         int movieId = 1;
         Movie movie = new Movie();
@@ -47,7 +52,7 @@ import java.util.List;
     }
 
     @Test
-      void testFindAllMovies() {
+    public void testFindAllMovies() {
 
         List<Movie> expectedMovies = new ArrayList<>();
         expectedMovies.add(new Movie());
@@ -62,7 +67,8 @@ import java.util.List;
     }
 
     @Test
-      void testPostMovie() {
+    public void testPostMovie() {
+
 
         Movie movie = new Movie();
         movie.setMovieId(1);
@@ -76,7 +82,8 @@ import java.util.List;
     }
 
     @Test
-      void testPutMapping() {
+    public void testPutMapping() {
+
 
         Movie movie = new Movie();
         movie.setMovieId(1);
@@ -90,7 +97,8 @@ import java.util.List;
     }
 
     @Test
-      void testDeleteMovie() {
+    public void testDeleteMovie() {
+
 
         int movieId = 1;
 
@@ -101,7 +109,8 @@ import java.util.List;
     }
 
     @Test
-      void testMoviePagination() {
+    public void testMoviePagination() {
+
 
         int pageNumber = 1;
         int pageSize = 10;

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+ 
 @Entity
 @Data
 @AllArgsConstructor
@@ -26,10 +26,10 @@ public class Movie {
     @Column(name = "rating")
     private String rating;
 
-
     public Movie(String s) {
     }
 
     public Movie(int movieId, String s) {
     }
+
 }

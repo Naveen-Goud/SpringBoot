@@ -10,17 +10,20 @@ import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-  class MovieRestExceptionHandlerTest {
+public class MovieRestExceptionHandlerTest {
 
-      MovieRestExceptionHandler exceptionHandler;
+    private MovieRestExceptionHandler exceptionHandler;
 
     @BeforeEach
-      void setup() {
+    public void setup() {
+
         exceptionHandler = new MovieRestExceptionHandler();
     }
 
     @Test
-      void handleMovieNotFoundException_ShouldReturnNotFoundResponse() {
+
+    public void handleMovieNotFoundException_ShouldReturnNotFoundResponse() {
+
         // Arrange
         MovieNotFoundException exception = new MovieNotFoundException("Movie not found");
 
@@ -33,7 +36,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     }
 
     @Test
-      void handleException_ShouldReturnBadRequestResponse() {
+    public void handleException_ShouldReturnBadRequestResponse() {
+
         // Arrange
         Exception exception = new Exception("Bad request");
 
