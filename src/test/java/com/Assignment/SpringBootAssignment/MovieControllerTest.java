@@ -1,4 +1,4 @@
-package com.Assignment.SpringBootAssignment;//package com.Assignment.SpringBootAssignment;//package com.Assignment.SpringBootAssignment;
+package com.Assignment.SpringBootAssignment;
 
 import com.Assignment.SpringBootAssignment.VO.ResponceTemplate;
 import com.Assignment.SpringBootAssignment.controller.MovieController;
