@@ -1,4 +1,4 @@
-package com.Assignment.SpringBootAssignment;//package com.Assignment.SpringBootAssignment;//package com.Assignment.SpringBootAssignment;
+package com.Assignment.SpringBootAssignment;
 
 import com.Assignment.SpringBootAssignment.VO.ResponceTemplate;
 import com.Assignment.SpringBootAssignment.controller.MovieController;
@@ -16,22 +16,22 @@ import org.springframework.data.domain.PageImpl;
 
 import java.util.ArrayList;
 import java.util.List;
-public class MovieControllerTest {
+  class MovieControllerTest {
 
 
     @BeforeEach
-    public void setup() {
+      void setup() {
         MockitoAnnotations.openMocks(this);
     }
 
     @InjectMocks
-    private MovieController movieController;
+      MovieController movieController;
 
     @Mock
-    private MovieServices movieServices;
+      MovieServices movieServices;
 
     @Test
-    public void testFindMovieById() {
+      void testFindMovieById() {
 
         int movieId = 1;
         Movie movie = new Movie();
@@ -47,7 +47,7 @@ public class MovieControllerTest {
     }
 
     @Test
-    public void testFindAllMovies() {
+      void testFindAllMovies() {
 
         List<Movie> expectedMovies = new ArrayList<>();
         expectedMovies.add(new Movie());
@@ -62,7 +62,7 @@ public class MovieControllerTest {
     }
 
     @Test
-    public void testPostMovie() {
+      void testPostMovie() {
 
         Movie movie = new Movie();
         movie.setMovieId(1);
@@ -76,7 +76,7 @@ public class MovieControllerTest {
     }
 
     @Test
-    public void testPutMapping() {
+      void testPutMapping() {
 
         Movie movie = new Movie();
         movie.setMovieId(1);
@@ -90,7 +90,7 @@ public class MovieControllerTest {
     }
 
     @Test
-    public void testDeleteMovie() {
+      void testDeleteMovie() {
 
         int movieId = 1;
 
@@ -101,7 +101,7 @@ public class MovieControllerTest {
     }
 
     @Test
-    public void testMoviePagination() {
+      void testMoviePagination() {
 
         int pageNumber = 1;
         int pageSize = 10;
