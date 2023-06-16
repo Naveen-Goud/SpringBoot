@@ -1,12 +1,20 @@
 package com.Assignment.SpringBootAssignment.controller;
 
 import com.Assignment.SpringBootAssignment.entity.Movie;
+ 
+import com.Assignment.SpringBootAssignment.exceptions.MovieErrorResponse;
+import com.Assignment.SpringBootAssignment.exceptions.MovieNotFoundException;
+ 
 import com.Assignment.SpringBootAssignment.services.MovieServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+ 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+ n
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +24,10 @@ import java.util.List;
 
 public class MovieController {
 
+ 
+    private List<Movie> theMovies;
+
+ 
     @Autowired
     private MovieServices movieServices;
 
@@ -27,6 +39,7 @@ public class MovieController {
 
    @GetMapping("/{id}")
     public Movie findMovieById(@PathVariable int id){
+ 
         return movieServices.findMovieById(id);
     }
 
@@ -57,4 +70,5 @@ public class MovieController {
         return (Page<Movie>) movieServices.pagination(pageNumber,pageSize,sortName);
     }
 
+ 
 }
