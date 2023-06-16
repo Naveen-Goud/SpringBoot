@@ -1,107 +1,118 @@
 package com.Assignment.SpringBootAssignment;
 
+import com.Assignment.SpringBootAssignment.VO.ResponceTemplate;
 import com.Assignment.SpringBootAssignment.controller.MovieController;
 import com.Assignment.SpringBootAssignment.entity.Movie;
 import com.Assignment.SpringBootAssignment.services.MovieServices;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.Matchers;
+import org.junit.Assert;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
-
- 
-@WebMvcTest(MovieController.class )
- 
+import java.util.ArrayList;
+import java.util.List;
 public class MovieControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
 
-    @MockBean
+    @BeforeEach
+    public void setup() {
+        MockitoAnnotations.openMocks(this);
+    }
+
+    @InjectMocks
+    private MovieController movieController;
+
+    @Mock
     private MovieServices movieServices;
 
     @Test
-    public void testGetMovieById() throws Exception {
-        // Arrange
+    public void testFindMovieById() {
 
-        Movie mockMovie = new Movie();
-        mockMovie.setMovieId(1);
-        mockMovie.setMovieName("mock movie");
-        Mockito.when(movieServices.findMovieById(Mockito.anyInt())).thenReturn(mockMovie);
+        int movieId = 1;
+        Movie movie = new Movie();
+        movie.setMovieId(movieId);
+        ResponceTemplate expectedResponse = new ResponceTemplate(movie);
 
-        String URI= "/movies/1";
-        // Act
-        RequestBuilder requestBuilder= MockMvcRequestBuilders.get(URI).accept(MediaType.APPLICATION_JSON);
-        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-        String expectedJson = this.mapToJson(mockMovie);
-        String outputJson = result.getResponse().getContentAsString(); 
-        assertThat(outputJson, Matchers.is(equalTo(expectedJson)));
+        Mockito.when(movieServices.findMoviewithDetailsById(movieId)).thenReturn(expectedResponse);
 
-   }
+        ResponceTemplate actualResponse = movieController.findMovieById(movieId);
+
+        Assert.assertEquals(expectedResponse, actualResponse);
+        Mockito.verify(movieServices).findMoviewithDetailsById(movieId);
+    }
+
     @Test
-    public void testPostMovie() throws Exception {
+    public void testFindAllMovies() {
+
+        List<Movie> expectedMovies = new ArrayList<>();
+        expectedMovies.add(new Movie());
+        expectedMovies.add(new Movie());
+
+        Mockito.when(movieServices.findAllMovies()).thenReturn(expectedMovies);
+
+        List<Movie> actualMovies = movieController.findAllMovies();
+
+        Assert.assertEquals(expectedMovies, actualMovies);
+        Mockito.verify(movieServices).findAllMovies();
+    }
+
+    @Test
+    public void testPostMovie() {
+
         Movie movie = new Movie();
         movie.setMovieId(1);
-        movie.setMovieName("New Movie");
-        movie.setRating("3");
-        movie.setReleaseDate("29-april-2020");
-
-        String inputjson = this.mapToJson(movie);
-        String  URI = "/movies/";
 
         Mockito.when(movieServices.save(Mockito.any(Movie.class))).thenReturn(movie);
 
-        RequestBuilder requestBuilder= MockMvcRequestBuilders
-                .post(URI)
-                .accept(MediaType.APPLICATION_JSON).content(inputjson)
-                .contentType(MediaType.APPLICATION_JSON);
-        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        Movie savedMovie = movieController.postMovie(movie);
 
-        MockHttpServletResponse response= result.getResponse();
-        String outputJson = response.getContentAsString();
-        assertThat(outputJson, Matchers.is(equalTo(inputjson)));
-        assertEquals(HttpStatus.OK.value(),response.getStatus());
-
+        Assert.assertEquals(movie, savedMovie);
+        Mockito.verify(movieServices).save(movie);
     }
 
     @Test
-    public void testDeleteMovie() throws Exception {
-        int id = 1;
+    public void testPutMapping() {
+
         Movie movie = new Movie();
-        movie.setMovieId(id);
-        movie.setMovieName("Movie to delete");
+        movie.setMovieId(1);
 
-        when(movieServices.findMovieById(id)).thenReturn(movie);
+        Mockito.when(movieServices.save(Mockito.any(Movie.class))).thenReturn(movie);
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/movies/{id}", id))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-                //.andExpect(MockMvcResultMatchers.content().string("the deleted movie is : Movie to delete"));
- 
-        verify(movieServices, times(1)).findMovieById(id);
-     
+        Movie updatedMovie = movieController.putMapping(movie);
+
+        Assert.assertEquals(movie, updatedMovie);
+        Mockito.verify(movieServices).save(movie);
     }
 
-    //helper 
-    private String mapToJson(Object object) throws JsonProcessingException{
-        ObjectMapper objectMapper= new ObjectMapper();
-        return objectMapper.writeValueAsString(object);
+    @Test
+    public void testDeleteMovie() {
+
+        int movieId = 1;
+
+        String response = movieController.deleteMovie(movieId);
+
+        Assert.assertEquals("the deleted movie id : " + movieId, response);
+        Mockito.verify(movieServices).delete(movieId);
+    }
+
+    @Test
+    public void testMoviePagination() {
+
+        int pageNumber = 1;
+        int pageSize = 10;
+        String sortName = "movieName";
+        Page<Movie> expectedPage = new PageImpl<>(new ArrayList<>());
+
+        Mockito.when(movieServices.pagination(pageNumber, pageSize, sortName)).thenReturn(expectedPage);
+
+        Page<Movie> actualPage = movieController.moviepagination(pageNumber, pageSize, sortName);
+
+        Assert.assertEquals(expectedPage, actualPage);
+        Mockito.verify(movieServices).pagination(pageNumber, pageSize, sortName);
     }
 }

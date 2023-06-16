@@ -1,10 +1,12 @@
 package com.Assignment.SpringBootAssignment.controller;
 
-import com.Assignment.SpringBootAssignment.VO.ResponceTemplate;
 import com.Assignment.SpringBootAssignment.entity.Movie;
 import com.Assignment.SpringBootAssignment.services.MovieServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,8 +16,6 @@ import java.util.List;
 
 public class MovieController {
 
-    private List<Movie> theMovies;
-
     @Autowired
     private MovieServices movieServices;
 
@@ -23,12 +23,15 @@ public class MovieController {
         movieServices=movieService;
     }
 
+
+
    @GetMapping("/{id}")
-    public ResponceTemplate findMovieById(@PathVariable("id") int id){
-        return movieServices.findMoviewithDetailsById(id);
+    public Movie findMovieById(@PathVariable int id){
+        return movieServices.findMovieById(id);
     }
 
-    @GetMapping("/")
+
+    @GetMapping
     public List<Movie > findAllMovies(){
         return movieServices.findAllMovies();
     }
@@ -37,6 +40,7 @@ public class MovieController {
     public Movie postMovie(@RequestBody Movie movie){
         return movieServices.save(movie);
     }
+
     @PutMapping("/movies")
     public Movie putMapping(@RequestBody Movie movie){
         return movieServices.save(movie);
@@ -44,9 +48,13 @@ public class MovieController {
     @DeleteMapping("/{id}")
     public String deleteMovie(@PathVariable int id){
         movieServices.delete(id);
-        return "the deleted movie id : " + id;}
+        return "the deleted movie is : " + movieServices.findMovieById(id);
+
+    }
     @RequestMapping(value = "/paging/{pageNumber}/{pageSize}/{sortName}",method = RequestMethod.GET)
-    public Page<Movie> moviepagination(@PathVariable int pageNumber, @PathVariable int pageSize,@PathVariable String sortName){
+    public Page<Movie> movieagination(@PathVariable int pageNumber, @PathVariable int pageSize,@PathVariable String sortName){
+
         return (Page<Movie>) movieServices.pagination(pageNumber,pageSize,sortName);
     }
+
 }
