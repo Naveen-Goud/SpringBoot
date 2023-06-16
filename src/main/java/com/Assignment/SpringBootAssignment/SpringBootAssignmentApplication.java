@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
+ 
 public class SpringBootAssignmentApplication {
 
 	public static void main(String[] args) {

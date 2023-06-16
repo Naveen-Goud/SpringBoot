@@ -16,11 +16,14 @@ public class MovieRestExceptionHandlerTest {
 
     @BeforeEach
     public void setup() {
+
         exceptionHandler = new MovieRestExceptionHandler();
     }
 
     @Test
+
     public void handleMovieNotFoundException_ShouldReturnNotFoundResponse() {
+
         // Arrange
         MovieNotFoundException exception = new MovieNotFoundException("Movie not found");
 
@@ -34,6 +37,7 @@ public class MovieRestExceptionHandlerTest {
 
     @Test
     public void handleException_ShouldReturnBadRequestResponse() {
+
         // Arrange
         Exception exception = new Exception("Bad request");
 
